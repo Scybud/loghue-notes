@@ -136,7 +136,7 @@ export function loginFuntion() {
             window.location.href = decodeURIComponent(redirectTo);
           } else {
             // Default behavior
-            window.location.href = "../";
+            window.location.href = "../notes";
           }
         }
       } finally {

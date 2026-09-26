@@ -7,7 +7,7 @@ import {
   fetchUserFolders as fetchFolders,
 } from "./data/notesDb.js";
 import { formatDateTimeRelatively } from "https://app.loghue.com/js/utils/time.js";
-import { sessionState } from "https://app.loghue.com/js/session.js";
+import { sessionState } from "./session.js";
 import {
   createTable,
   renderTableWidget,
@@ -500,15 +500,15 @@ async function initNotes() {
     .getElementById("sketchTitle")
     .addEventListener("input", scheduleSketchAutosave);
 
-  document.getElementById("createNote").addEventListener("click", () => {
+  document.getElementById("createNote")?.addEventListener("click", () => {
     notesTypeSelectContainer.hidden = true;
     createNote();
   });
-  document.getElementById("createSketch").addEventListener("click", () => {
+  document.getElementById("createSketch")?.addEventListener("click", () => {
     notesTypeSelectContainer.hidden = true;
     createSketchNote();
   });
-  document.getElementById("createTable").addEventListener("click", () => {
+  document.getElementById("createTable")?.addEventListener("click", () => {
     notesTypeSelectContainer.hidden = true;
     createTableNote();
   });
@@ -613,7 +613,6 @@ async function loadNotes(noteId) {
   ]);
 
   if (notes === null) return;
-
   savedNoteDetails = notes;
   savedFolders = folders;
   renderNotesList(notes);

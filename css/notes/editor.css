@@ -8,65 +8,7 @@
 }
 
 .mainContent {
-  padding-bottom: 100px;
   margin-left: 0;
-}
-
-/* Desktop sidebar behavior */
-@media (min-width: 800px) and (max-width: 1900px) {
-  .main {
-    display: flex !important;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .mainContent {
-    width: 100%;
-    margin-left: 50px;
-    padding-bottom: 30px;
-  }
-
-  button.menuBtn {
-    display: none;
-  }
-
-  .sidebar {
-    width: 60px;
-    height: 100%;
-    transition: width 0.35s ease;
-    border-right: 1px solid var(--border-primary);
-  }
-
-  .sidebar:hover {
-    width: 260px;
-  }
-
-  .sidebar:hover .navText,
-  .sidebar:hover div.navSectionLabel {
-    opacity: 1;
-  }
-
-  .sidebar .navText,
-  .sidebar div.navSectionLabel {
-    opacity: 0;
-    white-space: nowrap;
-    transition: opacity 0.4s ease;
-  }
-
-  .sidebar span.navIcon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .sidebar span.navIcon svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .sidebar.slideShow {
-    transform: translateX(0);
-  }
 }
 
 /*
@@ -75,8 +17,6 @@
 
 .notesContainer {
   padding: 0;
-  display: grid;
-  grid-template-columns: minmax(240px, 320px) 1fr;
   gap: 0;
   height: calc(100vh - 80px);
   max-height: calc(100vh - 80px);
