@@ -1,0 +1,103 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete Account | LogHue</title>
+
+    <!--SCYBUD UI-->
+    <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/typography.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/animations.css" />
+
+    <!--APP SPECIFIC CSS-->
+    <link rel="stylesheet" href="../../css/component.css" />
+    <link rel="stylesheet" href="../../css/base.css" />
+    <link rel="stylesheet" href="../css/components/forms.css" />
+
+    <style>
+      body {
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .card {
+        padding: 30px;
+        width: 100%;
+        max-width: 420px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        text-align: center;
+      }
+
+      .loading {
+        font-size: 18px;
+        opacity: 0.7;
+      }
+
+      .error {
+        color: var(--danger);
+        font-weight: 600;
+        margin-top: 10px;
+      }
+
+      .success {
+        color: var(--success);
+        font-weight: 600;
+        margin-top: 10px;
+      }
+      .homeLink {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Deleting Account...</h2>
+      <p class="status"></p>
+    </div>
+
+    <script type="module">
+      const token = new URLSearchParams(location.search).get("token");
+
+      async function run() {
+        const statusEl = document.querySelector(".status");
+
+        if (!token) {
+          statusEl.textContent = "Invalid or missing token.";
+          statusEl.classList.add("error");
+          return;
+        }
+
+        try {
+          const res = await fetch(
+            "https://qqactsebaxdottiiyrng.supabase.co/functions/v1/delete-account-forwarder",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ token }),
+            },
+          );
+
+          const json = await res.json();
+
+          if (!res.ok) {
+            statusEl.textContent = json.error || "Could not delete account.";
+            statusEl.classList.add("error");
+            return;
+          }
+
+          statusEl.textContent =
+            "Your account has been deleted. You can close this page.";
+          statusEl.classList.add("success");
+        } catch (err) {
+          console.error(err);
+          statusEl.textContent = "Something went wrong.";
+        }
+      }
+
+      run();
+    </script>
+  </body>
+</html>

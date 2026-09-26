@@ -1,0 +1,678 @@
+/*
+   NOTES PAGE
+   */
+
+.contentHeader {
+  margin-bottom: 0;
+  gap: var(--space-sm);
+}
+
+.mainContent {
+  padding-bottom: 100px;
+  margin-left: 0;
+}
+
+/* Desktop sidebar behavior */
+@media (min-width: 800px) and (max-width: 1900px) {
+  .main {
+    display: flex !important;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .mainContent {
+    width: 100%;
+    margin-left: 50px;
+    padding-bottom: 30px;
+  }
+
+  button.menuBtn {
+    display: none;
+  }
+
+  .sidebar {
+    width: 60px;
+    height: 100%;
+    transition: width 0.35s ease;
+    border-right: 1px solid var(--border-primary);
+  }
+
+  .sidebar:hover {
+    width: 260px;
+  }
+
+  .sidebar:hover .navText,
+  .sidebar:hover div.navSectionLabel {
+    opacity: 1;
+  }
+
+  .sidebar .navText,
+  .sidebar div.navSectionLabel {
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity 0.4s ease;
+  }
+
+  .sidebar span.navIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar span.navIcon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sidebar.slideShow {
+    transform: translateX(0);
+  }
+}
+
+/*
+   NOTES LAYOUT
+   */
+
+.notesContainer {
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+  gap: 0;
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--card-bg);
+}
+
+.notesContainer.isLoading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Left panel */
+#notesListContainer {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-primary);
+  background: var(--bg-primary);
+  min-height: 0;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-md);
+  border-bottom: 1px solid var(--border-primary);
+  flex-shrink: 0;
+    margin-bottom: 0;
+
+}
+
+.sectionHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.newNoteActionContainer {
+  position: relative;
+}
+.newNoteActionContainer .actionBtn {
+  padding: var(--space-sm);
+}
+.notesCount {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--card-bg);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-primary);
+}
+
+.noteItemPublic .noteMeta::after {
+  content: " · Public";
+}
+
+/* Folder groups */
+.noteFolder {
+  margin-bottom: 2px;
+}
+
+.noteFolderHeader {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: var(--space-xs) var(--space-md);
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-primary);
+}
+
+.noteFolderHeader:hover {
+  background: var(--hover-bg);
+}
+
+.folderChevron {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  color: var(--text-secondary);
+}
+
+.noteFolder.collapsed .folderChevron {
+  transform: rotate(-90deg);
+}
+
+.noteFolderName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.noteFolderCount {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.deleteFolderBtn {
+  opacity: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.noteFolderHeader:hover .deleteFolderBtn {
+  opacity: 1;
+}
+
+.deleteFolderBtn:hover {
+  color: var(--danger);
+}
+
+.noteFolderNotes {
+  padding-left: 20px;
+  max-height: 3000px;
+  transition: max-height 0.25s ease;
+  overflow: visible;
+}
+
+.noteFolder.collapsed .noteFolderNotes {
+  max-height: 0;
+  overflow-y: auto;
+}
+
+.folderEmpty {
+  padding: 8px var(--space-md);
+  font-size: 0.78rem;
+}
+
+/* Per-note actions button, replaces the old plain deleteBtn */
+.noteActionsBtn {
+  opacity: 0;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .noteActionsBtn, .deleteFolderBtn {
+    opacity: 1;
+  }
+  
+}
+
+.noteItem:hover .noteActionsBtn {
+  opacity: 1;
+}
+
+.noteActionsBtn:hover {
+  color: var(--text-primary);
+}
+
+.newFolderModal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  max-height: fit-content;
+  z-index: 3;
+  backdrop-filter: var(--filter) brightness(30%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: var(--space-xs) var(--space-md);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.newFolderModal .inputField {
+  max-width: 400px;
+}
+.newFolderModal .btn {
+  max-width: fit-content;
+  margin: var(--space-sm);
+}
+
+.dropdown-sectionLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+  padding: 6px 10px 2px;
+}
+
+#notesList {
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  height: 100%;
+}
+
+#notesList::-webkit-scrollbar {
+  width: 6px;
+}
+#notesList::-webkit-scrollbar-track {
+  background: transparent;
+}
+#notesList::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 999px;
+}
+#notesList::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Note items */
+.noteItem {
+  border-bottom: 1px solid var(--border-primary);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md);
+  margin-bottom: 4px;
+  cursor: pointer;
+  color: #fff;
+  border-left: 2px solid transparent;
+  transition: background 0.4s ease, border-color 0.4s ease, border-radius 0.4s ease;
+  position: relative;
+}
+
+.noteItem:hover {
+    border-radius: var(--radius-sm);
+  background: var(--hover-bg);
+}
+
+.noteItem.active {
+  background: var(--hover-bg);
+  border-left-color: var(--primary-light);
+  color: #fff;
+}
+
+
+.noteItemContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.noteTitle {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  font-weight: 560;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notePreview {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.noteMeta {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.noteItem .deleteBtn {
+  opacity: 0;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+@media (hover: none) and (pointer: coarse) {
+.noteItem .deleteBtn {
+    opacity: 1;
+}
+}
+
+.noteItem:hover .deleteBtn {
+  opacity: 1;
+}
+
+.noteItem .deleteBtn:hover {
+  color: var(--danger);
+}
+
+.noteItem:has(.deleteBtn:hover) {
+  background: var(--card-bg);
+}
+
+.noteItem.removing {
+  opacity: 0;
+  transform: translateX(-12px);
+  transition: all 0.4s ease;
+}
+
+.noteActions {
+display: flex;
+gap: var(--space-sm);
+}
+
+/*
+   EDITOR AREA
+   */
+
+#editorContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  overflow: auto;
+  width: 100%;
+}
+
+.editorTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--border-primary);
+  background: var(--card-bg);
+  position: sticky;
+  top: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  backdrop-filter: var(--filter);
+}
+.editorTop:has(.sketchToolbarContainer) {
+  overflow-x: visible;
+}
+.editorTop .sketchToolbarContainer {
+  background: var(--card-bg);
+}
+
+#noteTitle, #sketchTitle, #tableTitle {
+  border: 1px solid var(--border-primary);
+  width: 100%;
+  min-width: 250px;
+  max-width: 420px;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+#noteTitle:focus {
+  outline: none;
+  border-color: var(--border-primary);
+}
+
+.actionBtnsContainer {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg);
+}
+
+.saveStatus {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.notesActionBtn {
+  min-width: auto;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  text-align: center;
+  width: fit-content;
+}
+
+#saveNoteBtn {
+  color: #fff;
+}
+
+#saveNoteBtn:hover {
+  background: var(--primary-light);
+}
+
+#exportNotesBtn, #exportTableBtn {
+  color: var(--text-primary);
+  background: var(--card-bg);
+  border: 1px solid var(--border-primary);
+  text-align: left;
+}
+
+#textEditorPane {
+  flex: 1 1 auto;
+  min-height: 0;
+    height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#editor {
+  flex: 1 1 auto;       /* takes remaining space after the toolbar */
+  min-height: 0;
+  height: auto;          /* remove height:100%, flex handles sizing now */
+  max-height: none;
+  overflow: auto;        /* only #editor scrolls */
+  border: none;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  margin: var(--space-xs);
+  border-radius: var(--radius-sm);
+}
+
+#editor img {
+  border-radius: var(--radius-sm);
+  max-width: 100%;
+  height: auto;
+}
+#expandNoteBtn {
+  width: fit-content;
+}
+
+/* Mobile toggle */
+button.toggleNotesListBtn {
+  display: none;
+  width: fit-content;
+}
+
+/*
+   MOBILE
+   */
+
+@media (max-width: 800px) {
+  .notesContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: none;
+    border: none;
+    overflow: visible;
+  }
+
+  #notesListContainer {
+    border-right: none;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  #notesList {
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+    transition: height 0.35s ease, padding 0.35s ease;
+  }
+
+  #notesList.expandList {
+    height: min(60vh, 420px);
+    padding: var(--space-sm);
+    overflow: auto;
+  }
+
+  button.toggleNotesListBtn {
+    display: flex;
+  }
+
+  .editorTop {
+    padding: var(--space-md);
+  }
+
+  #noteTitle {
+    max-width: 300px;
+  }
+
+  .actionBtnsContainer {
+    float: right;
+    gap: var(--space-xs);
+    width: 100%;
+    max-width: fit-content;
+  }
+
+  .notesActionBtn {
+    width: fit-content;
+  }
+
+  .saveStatus {
+    width: fit-content;
+    text-align: left;
+    order: 3;
+  }
+}
+
+.linkedTasksChip {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: var(--surface-primary);
+  padding: 3px 10px;
+  border-radius: var(--radius-lg);
+  cursor: default;
+  white-space: nowrap;
+  align-self: center;
+}
+
+#sketchEditorPane {
+  position: relative;
+  transition: transform 0.5s ease, width 0.5s ease, height 0.5s ease,
+    top 0.5s ease, left 0.5s ease, border-radius 0.5s ease;
+}
+#sketchCanvasWrap {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+#board {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: block;
+  background: #ffffff;
+  border-radius: var(--radius-sm);
+}
+
+.sketchToolInputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) 0;
+}
+.sketchToolInputRow .tooltip {
+color: var(--text-primary);
+}
+#sketchEditorPane.expanded, #textEditorPane.expanded, #tableEditorPane.expanded {
+position: fixed;
+width: calc(100% - 60px);
+height: 100%;
+z-index: 2;
+top: 0;
+left: 60px;
+backdrop-filter: var(--filter);
+}
+ .actionBtn.tooltip:hover::after {
+  color: var(--text-primary);
+  z-index: 1;
+}
+
+
+@media (max-width: 800px) {
+ #sketchEditorPane.expanded, #textEditorPane.expanded, #tableEditorPane.expanded {
+width: 100%;
+height: 100%;
+left: 0;
+}
+#sketchEditorPane.expanded #sketchCanvasWrap {
+  height: 100%;
+}
+
+}
+#textEditorPane[hidden],
+#sketchEditorPane[hidden] {
+  display: none !important;
+}

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes | LogHue</title>
+
+    <!--SCYBUD UI-->
+    <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/layout.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/typography.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/animations.css" />
+
+    <!-- Quill CSS -->
+    <link
+      href="https://cdn.quilljs.com/1.3.6/quill.snow.css"
+      rel="stylesheet"
+    />
+
+    <!--APP SPECIFIC CSS-->
+    <link rel="stylesheet" href="https://app.loghue.com/css/base.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/layout.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/component.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/theme.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/pages.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/utilities.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/quill.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/forms.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/notes.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/tags.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/notes-tables.css" />
+
+    <!--FAVICONS-->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../assets/icons/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../assets/icons/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../assets/icons/favicons/favicon-16x16.png"
+    />
+  </head>
+
+  <body>
+    <main class="main">
+      <!-- MAIN CONTENT -->
+      <article class="mainContent" id="notesContent">
+        <div id="modalContainer"></div>
+        <div id="actionsMessage"></div>
+        <div id="infoDisplay"></div>
+
+        <p class="danger"></p>
+
+        <section class="notesContainer">
+          <!-- Editor only, notes list and sidebar removed -->
+          <div id="editorContainer">
+            <!-- Dynamic content loads here -->
+          </div>
+        </section>
+      </article>
+    </main>
+
+    <script type="module" src="../js/utils/noAuthSessionProtect.js"></script>
+    <script type="module" src="../js/app.js" defer></script>
+    <script type="module" src="../js/pages/notes.js" defer></script>
+
+    <!-- Quill JS -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- HTML TO PDF -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
+      defer
+    ></script>
+    <!-- HTML TO DOCX -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/docx@7.8.2/build/index.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"
+      defer
+    ></script>
+  </body>
+</html>

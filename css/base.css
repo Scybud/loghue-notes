@@ -1,0 +1,133 @@
+/*IMPORT FORM*/
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+/*RESET*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*HTML AND BODY*/
+html,
+body {
+    margin: 0;
+  padding: 0;
+  max-width: 100%;
+  width: 100%;
+  min-height: 100dvh;
+  max-height: none;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/*MAIN*/
+.main {
+   height: 100dvh;
+   padding: var(--space-lg) var(--space-sm);
+}
+
+/*VARIABLES*/
+
+/*DEFAULT THEME*/
+:root {
+--primary: #1565C0; 
+  --primary-light: #1976D2;
+  
+  --brightness: 60%;
+
+  --secondary: #334155;
+  --secondary-light: #475569; 
+  --card-bg: #111;
+
+--accent: #f59e0b;
+--accent-hover: #d97706;
+
+  --gradient: linear-gradient(to right, #1e88e5, #42a5f5);
+
+  --danger: #ff1919;
+    --border: #333;
+
+  --notif-bg-unread: #1e3a5f; /* dark blue for unread */
+  --notif-bg-read: #2c2c2c; /* dark background for read */
+  --notif-text: #eee;
+  --notif-border: #444;
+  
+--active-color: #fefefe;
+
+  --tag: #130404;
+--tag-text: #cfcfcf;
+
+  --chevron-color: #c5c5c5;
+
+  --brand-h: 17;
+  --brand-s: 70%;
+  --brand-l: 50%;
+
+  --brand: hsl(var(--brand-h), var(--brand-s), var(--brand-l));
+  --brand-hover: hsl(var(--brand-h), var(--brand-s), 50%);
+  --brand-soft: hsl(var(--brand-h), var(--brand-s), 90%);
+
+}
+
+/*COMPACT INTERFACE DENSITY*/
+:root[data-density="compact"] {
+  --space-xs: 2px;
+  --space-sm: 4px;
+  --space-md: 8px;
+  --space-lg: 12px;
+  --space-xl: 16px;
+}
+
+/*Smooth text rendering*/
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*TYPOGRAPHY*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.statsName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+h2 {
+  text-align: center;
+}
+p {
+  margin-bottom: var(--space-md);
+}
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+a:hover {
+    color: var(--accent);
+  text-decoration: underline;
+}
+.logo {
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: #fff;
+}
+a .logo:hover {
+  text-decoration: none;
+}
+.logo span {
+  background: var(--gradient);
+  background-clip: text;
+  color: transparent;
+}
+.emptyStateImg {
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  margin: 0 auto;
+  display: block;
+  border-radius: var(--radius-sm);
+}
