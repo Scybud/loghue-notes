@@ -4,8 +4,9 @@ import { actionMsg } from "https://app.loghue.com/js/utils/modals.js";
 export async function fetchUserNotes(userId) {
   const { data: notes, error } = await supabase
     .from("personal_notes")
-    .select("id, title")
-    .eq("user_id", userId);
+    .select("*")
+    .eq("user_id", userId)
+    .order("updated_at", { ascending: false });
 
   if (error) {
     actionMsg("Error loading notes", "error");

@@ -1,24 +1,38 @@
-.mainContent {
-  margin-left: 0;
-  width: 100%;
-  height: 100%;
-}
 /*
-   NOTES LAYOUT
+   NOTES LIST PAGE
    */
 
-.notesListContainer {
-    width: 100%;
-  height: 100%;
+.contentHeader {
+  margin-bottom: 0;
+  gap: var(--space-sm);
+}
+
+.mainContent {
+  margin-left: 0;
+}
+
+.notesContainer {
+  padding: 0;
+  gap: 0;
+  height: calc(100vh - 80px);
+  max-height: calc(100vh - 80px);
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--card-bg);
 }
 
-.notesListContainer.isLoading {
+.notesContainer.isLoading {
   opacity: 0.7;
   pointer-events: none;
+}
+
+#notesListContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--bg-primary);
 }
 
 .sectionHeader {
@@ -28,8 +42,7 @@
   padding: var(--space-md) var(--space-md);
   border-bottom: 1px solid var(--border-primary);
   flex-shrink: 0;
-    margin-bottom: 0;
-
+  margin-bottom: 0;
 }
 
 .sectionHeaderLeft {
@@ -149,7 +162,7 @@
   font-size: 0.78rem;
 }
 
-/* Per-note actions button, replaces the old plain deleteBtn */
+/* Per-note actions button */
 .noteActionsBtn {
   opacity: 0;
   flex-shrink: 0;
@@ -171,7 +184,6 @@
   .noteActionsBtn, .deleteFolderBtn {
     opacity: 1;
   }
-  
 }
 
 .noteItem:hover .noteActionsBtn {
@@ -219,7 +231,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
-  height: 100%;
+  flex: 1;
 }
 
 #notesList::-webkit-scrollbar {
@@ -252,7 +264,7 @@
 }
 
 .noteItem:hover {
-    border-radius: var(--radius-sm);
+  border-radius: var(--radius-sm);
   background: var(--hover-bg);
 }
 
@@ -261,7 +273,6 @@
   border-left-color: var(--primary-light);
   color: #fff;
 }
-
 
 .noteItemContent {
   flex: 1;
@@ -296,40 +307,6 @@
   margin-top: 2px;
 }
 
-.noteItem .deleteBtn {
-  opacity: 0;
-  flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-sm);
-  background: var(--bg-primary);
-  color: var(--text-secondary);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-}
-@media (hover: none) and (pointer: coarse) {
-.noteItem .deleteBtn {
-    opacity: 1;
-}
-}
-
-.noteItem:hover .deleteBtn {
-  opacity: 1;
-}
-
-.noteItem .deleteBtn:hover {
-  color: var(--danger);
-}
-
-.noteItem:has(.deleteBtn:hover) {
-  background: var(--card-bg);
-}
-
 .noteItem.removing {
   opacity: 0;
   transform: translateX(-12px);
@@ -337,11 +314,24 @@
 }
 
 .noteActions {
-display: flex;
-gap: var(--space-sm);
+  display: flex;
+  gap: var(--space-sm);
 }
 
- .actionBtn.tooltip:hover::after {
+.actionBtn.tooltip:hover::after {
   color: var(--text-primary);
   z-index: 1;
+}
+
+@media (max-width: 800px) {
+  .notesContainer {
+    height: 100%;
+    max-height: none;
+    border: none;
+    overflow: visible;
+  }
+
+  #notesListContainer {
+    height: auto;
+  }
 }
