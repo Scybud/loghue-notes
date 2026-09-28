@@ -335,6 +335,6 @@ section {
   }
 
   #notesListContainer {
-    height: auto;
+    height: 100%;
   }
 }
