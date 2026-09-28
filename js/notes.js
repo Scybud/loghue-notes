@@ -369,6 +369,8 @@ async function createNote() {
   document.dispatchEvent(
     new CustomEvent("onboarding:note_created", { detail: { noteId: data.id } }),
   );
+
+  loadNotes()
   openNoteInEditor(data.id);
 }
 
