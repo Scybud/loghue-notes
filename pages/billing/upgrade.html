@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upgrade | LogHue</title>
+
+    <!--SCYBUD UI-->
+    <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/typography.css" />
+
+    <!--APP SPECIFIC CSS-->
+    <link rel="stylesheet" href="../../css/base.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/component.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/utilities.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/forms.css" />
+
+    <!--FAVICONS-->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../../assets/icons/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../../assets/icons/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../../assets/icons/favicons/favicon-16x16.png"
+    />
+
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        color: var(--text-primary);
+        padding: 20px;
+      }
+
+      .loader {
+        border: 4px solid rgba(255, 255, 255, 0.2);
+        border-top: 4px solid var(--primary-light);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .msg {
+        font-size: 18px;
+        opacity: 0.8;
+      }
+
+      .confirm-card {
+        max-width: 420px;
+        text-align: left;
+        background: var(--bg-card, rgba(255, 255, 255, 0.04));
+        border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+        border-radius: 12px;
+        padding: 28px;
+      }
+
+      .confirm-card h2 {
+        font-size: 20px;
+        margin: 0 0 12px;
+      }
+
+      .consent-text {
+        font-size: 13px;
+        opacity: 0.75;
+        line-height: 1.5;
+        margin: 16px 0;
+      }
+
+      .consent-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .consent-row input[type="checkbox"] {
+        margin-top: 3px;
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+
+      .consent-row label {
+        font-size: 13px;
+        line-height: 1.5;
+        cursor: pointer;
+      }
+
+      #continueBtn {
+        width: 100%;
+        opacity: 0.5;
+        pointer-events: none;
+        transition: opacity 0.2s;
+      }
+
+      #continueBtn.enabled {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="actionsMessage"></div>
+
+    <!-- Step 1: confirmation + consent -->
+    <div class="confirm-card" id="confirmCard">
+      <h2>Confirm your subscription</h2>
+      <p style="opacity: 0.8; font-size: 14px">
+        You're about to subscribe to a LogHue paid plan.
+      </p>
+
+      <div class="consent-text">
+        By subscribing, you agree that LogHue will begin providing the service
+        immediately. You acknowledge that this means you lose your statutory
+        14-day right of withdrawal once your subscription is active.
+      </div>
+
+      <div class="consent-row">
+        <input type="checkbox" id="consentCheckbox" />
+        <label for="consentCheckbox">I have read and agree to the above.</label>
+      </div>
+
+      <button class="btn btn-primary" id="continueBtn">
+        Continue to secure checkout
+      </button>
+    </div>
+
+    <!-- Step 2: redirecting state -->
+    <div id="redirectingState" class="hidden">
+      <div class="loader"></div>
+      <div class="msg">Redirecting you to secure checkout...</div>
+    </div>
+
+    <script type="module" src="../../js/billing/upgrade.js"></script>
+    <script type="module" src="../../js/session.js"></script>
+  </body>
+</html>

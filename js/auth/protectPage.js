@@ -5,7 +5,7 @@ async function protectAppPage() {
   const redirectUrl = window.location.href;
 
   if (!sessionState.user) {
-    window.location.href = `auth?redirect=${redirectUrl}`;
+    window.location.href = `/auth?redirect=${encodeURIComponent(redirectUrl)}`;
     return;
   }
 

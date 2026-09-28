@@ -66,7 +66,7 @@ if (signupForm) {
       const success = await signup(name, email, password);
 
       if (success) {
-        // After successful login/signup:
+        // After successful signup:
         const params = new URLSearchParams(window.location.search);
         const redirectTo = params.get("redirect");
 
@@ -158,7 +158,7 @@ async function signout() {
   actionMsg("Logged out successfully!", "success");
 
   setTimeout(() => {
-    window.location.href = "auth";
+    window.location.href = "/auth";
   }, 3000);
 }
 

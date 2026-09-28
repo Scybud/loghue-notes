@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Billing | LogHue</title>
+
+    <!-- CSS -->
+
+    <!--SCYBUD UI-->
+    <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/typography.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/animations.css" />
+
+    <!--APP SPECIFIC CSS-->
+    <link rel="stylesheet" href="../../css/base.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/components/forms.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/component.css" />
+    <link rel="stylesheet" href="https://app.loghue.com/css/utilities.css" />
+
+    <!--FAVICONS-->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="https://app.loghue.com/assets/icons/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="https://app.loghue.com/assets/icons/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="https://app.loghue.com/assets/icons/favicons/favicon-16x16.png"
+    />
+    <style>
+      .container {
+        max-width: 720px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+        margin-bottom: 6px;
+      }
+
+      .subtext {
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+
+      .card {
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        margin-bottom: 24px;
+      }
+
+      .plan-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        backdrop-filter: blur(30px);
+        background: rgba(255, 119, 0, 0.29);
+        border: 1px solid var(--tag);
+        color: var(--color);
+        margin-left: 8px;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 16px;
+      }
+
+      .feature-list li {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 15px;
+      }
+
+      .feature-list li.locked {
+        opacity: 0.5;
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        margin-top: 10px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 15px;
+        cursor: pointer;
+        border: none;
+        transition: 0.2s;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-light);
+      }
+
+      .btn-outline {
+        margin: auto !important;
+        background: transparent;
+        border: 1px solid #ccc;
+        color: var(--color);
+      }
+
+      .upgrade-section {
+        margin: 20px auto;
+      }
+      .backBtn,
+      .backLink {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: sticky;
+        top: 30px;
+        left: 20px;
+        padding: 0 auto;
+        width: fit-content;
+        background: none;
+        color: var(--link);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="contentHeader">
+      <div class="headerLeft">
+        <button
+          type="button"
+          class="btn backBtn btn-sm"
+          onclick="window.history.back()"
+        >
+          <!-- Back Icon -->
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M11.75 4.25L6 10L11.75 15.75"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span>Back</span>
+        </button>
+
+        <a
+          href="/notes"
+          class="btn backLink btn-sm"
+          onclick="window.history.back()"
+          >Home</a
+        >
+      </div>
+
+      <div class="headerRight">
+        <div class="profileAvatarContainer">
+          <img
+            src="https://app.loghue.com/assets/images/default_profile.png"
+            alt="profile Image"
+            class="profileAvatar"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- MESSAGES & NOTIFICATIONS OVERLAYS -->
+    <div id="modalContainer"></div>
+    <div id="actionsMessage"></div>
+    <div id="infoDisplay"></div>
+
+    <div class="container mainContent">
+      <h1>Your Billing</h1>
+      <div class="subtext">
+        Manage your plan, unlock more features, and get the most out of LogHue.
+      </div>
+
+      <!-- Current Plan -->
+      <div class="card">
+        <div class="section-title">
+          Current Plan:
+          <span class="plan-badge" id="current-plan">Loading...</span>
+        </div>
+
+        <ul class="feature-list" id="current-features"></ul>
+
+        <a class="pricingLink" href="https://loghue.com/pricing"
+          >Check out pricing</a
+        >
+      </div>
+
+      <!--ADDONS SECTION-->
+      <div class="card">
+        <div class="section-title">Your Addons</div>
+        <ul class="feature-list" id="current-addons"></ul>
+      </div>
+
+      <!-- Upgrade Section -->
+      <div class="card upgrade-section">
+        <div class="section-title" id="section-title">
+          Upgrade to <span id="nextPlan">Pro</span>
+        </div>
+        <p
+          class="upgrade-section-subtitle"
+          style="color: #777; margin-bottom: 16px"
+        >
+          Unlock your full workspace potential with advanced features designed
+          for creators, teams, and power users.
+        </p>
+
+        <ul class="feature-list" id="higherFeatures"></ul>
+
+        <button
+          class="btn btn-primary"
+          id="upgradeToProBtn"
+          style="margin-top: 16px"
+        >
+          Upgrade to Pro
+        </button>
+        <button
+          class="btn btn-outline"
+          id="manage-btn"
+          style="margin-left: 10px"
+        >
+          Manage Subscription
+        </button>
+      </div>
+    </div>
+
+    <script type="module" src="../../js/billing/index.js"></script>
+
+    <script type="module" src="../../js/app.js"></script>
+    <script type="module" src="../../js/session.js"></script>
+  </body>
+</html>
