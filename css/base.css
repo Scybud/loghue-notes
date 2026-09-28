@@ -189,3 +189,19 @@ a .logo:hover {
 .contentHeader::-webkit-scrollbar-thumb:hover {
   background: #0393d626; /* slightly brighter primary */
 }
+
+#logoutBtn {
+  position: fixed;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  background: var(--surface-primary);
+  padding: var(--space-xs);
+  border: none;
+color: var(--text-primary);
+border-radius: var(--radius-sm);
+cursor: pointer;
+transition: color 0.5s ease;
+}
+#logoutBtn:hover {
+  color: var(--danger);
+}
