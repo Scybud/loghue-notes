@@ -191,9 +191,11 @@ a .logo:hover {
 }
 
 #logoutBtn {
-  position: fixed;
+  position: fixed ;
   top: var(--space-sm);
   right: var(--space-sm);
+  height: fit-content;
+  bottom: auto;
   background: var(--surface-primary);
   padding: var(--space-xs);
   border: none;
