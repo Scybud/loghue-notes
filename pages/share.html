@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Shared note | LogHue</title>
+
+  <!-- Quill content styles (lists, indents, alignment, fonts) -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
+
+  <!-- FAVICONS -->
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icons/favicons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icons/favicons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/favicons/favicon-16x16.png" />
+
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #111113;
+      --text: #e7e7ea;
+      --muted: #8b8b94;
+      --line: #232327;
+      --accent: #3b82f6;
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #fafafa;
+        --surface: #ffffff;
+        --text: #18181b;
+        --muted: #6b6b76;
+        --line: #e4e4e7;
+        --accent: #2563eb;
+      }
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      border-top: 3px solid var(--accent);
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* Header */
+    .shareHeader {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .shareLogo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .shareLogo span {
+      color: var(--accent);
+    }
+
+    .shareLabel {
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    /* Note */
+    .shareMain {
+      flex: 1;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      overflow-x: auto;
+      padding: 48px 20px 64px;
+    }
+
+    #shareRoot {
+      animation: shareIn 0.25s ease-out;
+    }
+
+    #shareRoot > h1 {
+      margin: 0;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      overflow-wrap: anywhere;
+    }
+
+    .shareAuthor {
+      margin: 12px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    #shareRoot > .ql-editor,
+    #shareRoot > div:last-child {
+      margin-top: 32px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* Quill content overrides for reading */
+    #shareRoot .ql-editor {
+      height: auto;
+      overflow: visible;
+      padding-left: 0;
+      padding-right: 0;
+      font-size: 17px;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    #shareRoot .ql-editor p,
+    #shareRoot .ql-editor ol,
+    #shareRoot .ql-editor ul,
+    #shareRoot .ql-editor pre,
+    #shareRoot .ql-editor blockquote {
+      margin-bottom: 0.9em;
+    }
+
+    #shareRoot .ql-editor pre {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px 16px;
+      overflow-x: auto;
+    }
+
+    #shareRoot .ql-editor img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Tables scroll inside themselves on small screens */
+.shareTableWrap {
+  overflow-x: auto;
+  margin: 16px 0;
+}
+
+#shareRoot table {
+  width: 100%;
+  min-width: 640px;
+  
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 0 !important;
+  font-size: 15px;
+  background: transparent !important;
+}
+
+#shareRoot table + table {
+  margin-top: -1px !important;
+
+}
+
+#shareRoot th,
+#shareRoot td {
+  position: sticky;
+  top: 0;
+  border: 1px solid var(--line) !important;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+  color: var(--text) !important;
+  background: transparent !important;
+  overflow-wrap: anywhere;
+}
+
+#shareRoot th,
+#shareRoot thead td {
+  background: var(--surface) !important;
+  font-weight: 600;
+}
+
+    /* Sketch notes: white backing so dark strokes stay visible in dark mode */
+    .shareSketch {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    /* Loading and error states */
+    .shareMsg {
+      margin: 80px 0;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* Footer */
+    .shareFooter {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    @keyframes shareIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #shareRoot {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="shareHeader">
+    <a class="shareLogo" href="https://loghue.com" rel="noopener">Log<span>Hue</span></a>
+    <span class="shareLabel">Shared note</span>
+  </header>
+
+  <main class="shareMain">
+    <div id="shareRoot" aria-live="polite">
+      <p class="shareMsg">Loading note…</p>
+    </div>
+    <noscript>
+      <p class="shareMsg">JavaScript is required to view this note.</p>
+    </noscript>
+  </main>
+
+  <footer class="shareFooter">
+    <span>Shared publicly by its owner.</span>
+    <a href="https://app.loghue.com/pages/notes" rel="noopener">Write your own notes on LogHue</a>
+  </footer>
+
+  <!-- Public page: do not load noAuthSessionProtect.js or app.js here -->
+  <script type="module" src="/js/pages/share.js"></script>
+</body>
+
+</html>
