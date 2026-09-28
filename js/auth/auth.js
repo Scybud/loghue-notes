@@ -75,7 +75,7 @@ if (signupForm) {
           window.location.href = decodeURIComponent(redirectTo);
         } else {
           // Default behavior
-          window.location.href = "/pages/";
+          window.location.href = "/notes/";
         }
       }
     } finally {
@@ -136,7 +136,7 @@ export function loginFuntion() {
             window.location.href = decodeURIComponent(redirectTo);
           } else {
             // Default behavior
-            window.location.href = "../notes";
+            window.location.href = "/notes/";
           }
         }
       } finally {

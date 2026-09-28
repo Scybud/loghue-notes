@@ -1,471 +1,724 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LogHue Notes | write, sketch, and organize without the extra app</title>
-<link rel="stylesheet" href="/css/base.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>
+      LogHue Notes | write, sketch, and organize without the extra app
+    </title>
 
-<style>
-  :root {
-    --bg: #000000;
-    --card: #111111;
-    --card-raised: #161616;
-    --border: #2a2a2a;
-    --border-soft: #1e1e1e;
-    --text: #f2f2f0;
-    --text-dim: #9a9a97;
-    --text-faint: #666663;
-    --blue: #3b82f6;
-    --blue-dim: #1c2f52;
-  
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    box-sizing: border-box;
-  }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
-  * { box-sizing: border-box; }
-  html, body { height: auto; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; }
-  img { max-width: 100%; }
+    <link rel="stylesheet" href="https://ui.scybud.com/css/variables.css" />
+    <link rel="stylesheet" href="https://ui.scybud.com/css/typography.css" />
 
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+    <link rel="stylesheet" href="/css/base.css" />
 
-  /* NAV */
-  nav {
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    z-index: 10;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-soft);
-  }
-  nav .wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-  }
-  .wordmark {
-    font-family: var(--serif);
-    font-size: 19px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    text-decoration: none;
-    display: flex;
-    align-items: baseline;
-    gap: 7px;
-  }
-  .wordmark .accent { color: var(--blue); }
-  .wordmark .divider { color: var(--text-faint); font-weight: 400; font-size: 15px; }
-  .wordmark .sub { color: var(--text-dim); font-size: 15px; font-family: var(--sans); font-weight: 400; }
-  .nav-cta {
-    font-size: 14px;
-    color: var(--text-dim);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 7px;
-    border: 1px solid var(--border);
-    transition: border-color 0.15s ease, color 0.15s ease;
-  }
-  .nav-cta:hover { border-color: var(--blue); color: var(--text); }
+    <style>
+      a {
+        color: inherit;
+      }
+      img {
+        max-width: 100%;
+      }
 
-  /* HERO */
-  header.hero { padding: 84px 0 56px; }
-  .eyebrow {
-    font-size: 14px;
-    color: var(--text-dim);
-    margin: 0 0 20px;
-  }
-  h1 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: clamp(36px, 6vw, 60px);
-    line-height: 1.08;
-    letter-spacing: -0.01em;
-    margin: 0 0 24px;
-    max-width: 15ch;
-  }
-  .lede {
-    font-size: 18px;
-    color: var(--text-dim);
-    max-width: 46ch;
-    margin: 0 0 36px;
-  }
-  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 500;
-    text-decoration: none;
-    border: 1px solid transparent;
-    transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
-  }
-  .btn:active { transform: scale(0.98); }
-  .btn-primary { background: var(--blue); color: #ffffff; }
-  .btn-primary:hover { background: #2f6fe0; }
-  .btn-secondary { border-color: var(--border); color: var(--text); }
-  .btn-secondary:hover { border-color: var(--text-dim); }
-  .fine-print { margin-top: 16px; font-size: 13px; color: var(--text-faint); }
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
 
-  /* EDITOR MOCK */
-  .editor-mock {
-    margin-top: 64px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--card);
-    overflow: hidden;
-  }
-  .editor-mock .bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .editor-mock .bar .left { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-dim); }
-  .dot-row { display: flex; gap: 6px; }
-  .dot-row span { width: 8px; height: 8px; border-radius: 50%; background: var(--border); display: block; }
-  .saved-pill {
-    font-size: 12px;
-    color: #7fb27f;
-    background: rgba(127,178,127,0.1);
-    padding: 3px 9px;
-    border-radius: 20px;
-  }
-  .export-pill {
-    font-size: 12px;
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-    padding: 5px 11px;
-    border-radius: 7px;
-  }
-  .editor-mock .body { padding: 32px 36px 40px; }
-  .editor-mock .title-line {
-    font-family: var(--serif);
-    font-size: 24px;
-    color: var(--text);
-    margin: 0 0 18px;
-  }
-  .editor-mock .fake-line { height: 11px; border-radius: 3px; background: var(--border-soft); margin-bottom: 12px; }
-  .editor-mock .fake-line.w1 { width: 92%; }
-  .editor-mock .fake-line.w2 { width: 100%; }
-  .editor-mock .fake-line.w3 { width: 68%; }
-  .editor-mock .fake-line.w4 { width: 84%; }
-  .toolbar-mock {
-    display: flex;
-    gap: 6px;
-    margin-top: 20px;
-    padding-top: 18px;
-    border-top: 1px solid var(--border-soft);
-  }
-  .toolbar-mock span {
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    background: var(--border-soft);
-  }
+      /* NAV */
+      nav {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 10;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-primary);
+      }
+      nav .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: var(--space-sm) ;
+      }
+      .wordmark {
+        font-size: 19px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        text-decoration: none;
+        display: flex;
+        align-items: baseline;
+        gap: 7px;
+      }
+      .wordmark:hover {
+        text-decoration: none;
+      }
+      
+      .wordmark .divider {
+        color: var(--text-faint);
+        font-weight: 400;
+        font-size: 15px;
+      }
+      .wordmark .sub {
+        color: var(--muted);
+        font-size: 15px;
+        font-family: var(--sans);
+        font-weight: 400;
+      }
+      .nav-cta {
+        font-size: 14px;
+        color: var(--muted);
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 7px;
+        border: 1px solid var(--border-primary);
+        transition:
+          border-color 0.15s ease,
+          color 0.15s ease;
+      }
+      .nav-cta:hover {
+        border-color: var(--primary);
+        color: var(--text-primary);
+        text-decoration: none;
+      }
 
-  /* SECTIONS */
-  section { padding: 88px 0; border-top: 1px solid var(--border-soft); }
-  .section-head { max-width: 56ch; margin-bottom: 44px; }
-  .section-head .label { font-size: 14px; color: var(--blue); margin: 0 0 12px; }
-  .section-head h2 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: clamp(26px, 3.4vw, 34px);
-    line-height: 1.2;
-    margin: 0 0 14px;
-  }
-  .section-head p { color: var(--text-dim); font-size: 16px; margin: 0; }
+      /* HERO */
+      header.hero {
+        padding: 84px 0 56px;
+      }
+      .eyebrow {
+        font-size: 14px;
+        color: var(--muted);
+        margin: 0 0 20px;
+      }
+      h1 {
+        font-family: var(--serif);
+        font-weight: 500;
+        font-size: clamp(36px, 6vw, 60px);
+        line-height: 1.08;
+        letter-spacing: -0.01em;
+        margin: 0 0 24px;
+        max-width: 15ch;
+      }
+      .lede {
+        font-size: 18px;
+        color: var(--muted);
+        max-width: 46ch;
+        margin: 0 0 36px;
+      }
+      .cta-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 22px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition:
+          transform 0.12s ease,
+          background 0.15s ease,
+          border-color 0.15s ease;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--text-primary);
+      }
+      .btn-primary:hover {
+        background: var(--primary-light);
+        color: var(--text-primary);
+        text-decoration: none;
+      }
+      .btn-secondary {
+        border-color: var(--border-primary);
+        color: var(--text-primary);
+      }
+      .btn-secondary:hover {
+        border-color: var(--border-secondary);
+        text-decoration: none;
+                color: var(--text-secondary);
+      }
+      .fine-print {
+        margin-top: 16px;
+        font-size: 13px;
+        color: var(--text-faint);
+      }
 
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 26px 24px;
-  }
-  .card .icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    background: var(--blue-dim);
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .card .icon svg { width: 17px; height: 17px; stroke: var(--blue); }
-  .card h3 { font-size: 16px; font-weight: 600; margin: 0 0 8px; }
-  .card p { font-size: 14px; color: var(--text-dim); margin: 0; line-height: 1.55; }
+      /* EDITOR MOCK */
+      .editor-mock {
+        margin-top: 64px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: var(--card-bg);
+        overflow: hidden;
+      }
+      .editor-mock .bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border-primary);
+      }
+      .editor-mock .bar .left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .dot-row {
+        display: flex;
+        gap: 6px;
+      }
+      .dot-row span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border);
+        display: block;
+      }
+      .saved-pill {
+        font-size: 12px;
+        color: #7fb27f;
+        background: rgba(127, 178, 127, 0.1);
+        padding: 3px 9px;
+        border-radius: 20px;
+      }
+      .export-pill {
+        font-size: 12px;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        padding: 5px 11px;
+        border-radius: 7px;
+      }
+      .editor-mock .body {
+        padding: 32px 36px 40px;
+      }
+      .editor-mock .title-line {
+        font-family: var(--serif);
+        font-size: 24px;
+        color: var(--text);
+        margin: 0 0 18px;
+      }
+      .editor-mock .fake-line {
+        height: 11px;
+        border-radius: 3px;
+        background: var(--border-primary);
+        margin-bottom: 12px;
+      }
+      .editor-mock .fake-line.w1 {
+        width: 92%;
+      }
+      .editor-mock .fake-line.w2 {
+        width: 100%;
+      }
+      .editor-mock .fake-line.w3 {
+        width: 68%;
+      }
+      .editor-mock .fake-line.w4 {
+        width: 84%;
+      }
+      .toolbar-mock {
+        display: flex;
+        gap: 6px;
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border-primary);
+      }
+      .toolbar-mock span {
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        background: var(--border-primary);
+      }
 
-  /* FORMATS */
-  .formats-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 8px;
-  }
-  .format-chip {
-    font-size: 13px;
-    padding: 8px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-  }
-  .format-chip.locked { color: var(--text-faint); }
-  .format-chip.locked::after { content: " · Pro"; color: var(--blue); }
+      /* SECTIONS */
+      section {
+        padding: 88px 0;
+        border-top: 1px solid var(--border-primary);
+      }
+      .section-head {
+        max-width: 56ch;
+        margin-bottom: 44px;
+      }
+      .section-head .label {
+        font-size: 14px;
+        color: var(--blue);
+        margin: 0 0 12px;
+      }
+      .section-head h2 {
+        font-weight: 500;
+        font-size: clamp(26px, 3.4vw, 34px);
+        line-height: 1.2;
+        margin: 0 0 14px;
+      }
+      .section-head p {
+        color: var(--muted);
+        font-size: 16px;
+        margin: 0;
+      }
 
-  .split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    align-items: center;
-  }
-  .split .visual {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--card);
-    padding: 28px;
-  }
-  .share-link-mock {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--card-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: var(--text-dim);
-    margin-top: 18px;
-  }
-  .share-link-mock .url { color: var(--blue); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .toggle-mock {
-    width: 34px;
-    height: 19px;
-    border-radius: 20px;
-    background: var(--blue);
-    position: relative;
-    flex-shrink: 0;
-  }
-  .toggle-mock::after {
-    content: "";
-    position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    background: #fff;
-  }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-primary);
+        border-radius: 12px;
+        padding: 26px 24px;
+      }
+      .card .icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        background: rgba(29, 135, 255, 0.139);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card .icon svg {
+        width: 17px;
+        height: 17px;
+        stroke: var(--primary);
+      }
+      .card h3 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 8px;
+      }
+      .card p {
+        font-size: 14px;
+        color: var(--muted);
+        margin: 0;
+        line-height: 1.55;
+      }
 
-  ul.plain { list-style: none; padding: 0; margin: 18px 0 0; }
-  ul.plain li {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border-soft);
-    font-size: 15px;
-    color: var(--text-dim);
-    display: flex;
-    gap: 12px;
-  }
-  ul.plain li:last-child { border-bottom: none; }
-  ul.plain li .mark { color: var(--blue); flex-shrink: 0; }
-  ul.plain li strong { color: var(--text); font-weight: 500; }
+      /* FORMATS */
+      .formats-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .format-chip {
+        font-size: 13px;
+        padding: 8px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border-primary);
+        color: var(--muted);
+      }
+      .format-chip.locked {
+        color: var(--muted);
+      }
+      .format-chip.locked::after {
+        content: " · Pro";
+        color: var(--primary);
+      }
 
-  /* ACCOUNT NOTE */
-  .account-band {
-    border-top: 1px solid var(--border-soft);
-    padding: 64px 0;
-  }
-  .account-band .wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-    flex-wrap: wrap;
-  }
-  .account-band h2 {
-    font-family: var(--serif);
-    font-weight: 500;
-    font-size: 26px;
-    margin: 0 0 8px;
-    max-width: 30ch;
-  }
-  .account-band p { color: var(--text-dim); font-size: 15px; margin: 0; max-width: 40ch; }
+      .split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 56px;
+        align-items: center;
+      }
+      .split .visual {
+        border: 1px solid var(--border-primary);
+        border-radius: 12px;
+        background: var(--card-bg);
+        padding: 28px;
+      }
+      .share-link-mock {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.486);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 18px;
+      }
+      .share-link-mock .url {
+        color: var(--primary);
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .toggle-mock {
+        width: 34px;
+        height: 19px;
+        border-radius: 20px;
+        background: var(--primary);
+        position: relative;
+        flex-shrink: 0;
+      }
+      .toggle-mock::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #fff;
+      }
 
-  /* FOOTER */
-  footer { border-top: 1px solid var(--border-soft); padding: 40px 0; }
-  footer .wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  footer .left { font-size: 13px; color: var(--text-faint); }
-  footer .links { display: flex; gap: 22px; }
-  footer .links a { font-size: 13px; color: var(--text-dim); text-decoration: none; }
-  footer .links a:hover { color: var(--text); }
+      ul.plain {
+        list-style: none;
+        padding: 0;
+        margin: 18px 0 0;
+      }
+      ul.plain li {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-primary);
+        font-size: 15px;
+        color: var(--muted);
+        display: flex;
+        gap: 12px;
+      }
+      ul.plain li:last-child {
+        border-bottom: none;
+      }
+      ul.plain li .mark {
+        color: var(--primary);
+        flex-shrink: 0;
+      }
+      ul.plain li strong {
+        color: var(--text-primary);
+        font-weight: 500;
+      }
 
-  @media (max-width: 760px) {
-    .grid-3 { grid-template-columns: 1fr; }
-    .split { grid-template-columns: 1fr; gap: 32px; }
-    header.hero { padding: 56px 0 40px; }
-    section { padding: 60px 0; }
-    .editor-mock .body { padding: 24px 20px 30px; }
-    .account-band .wrap { flex-direction: column; align-items: flex-start; }
-  }
-</style>
-</head>
-<body>
+      /* ACCOUNT NOTE */
+      .account-band {
+        border-top: 1px solid var(--border-primary);
+        padding: 64px 0;
+      }
+      .account-band .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .account-band h2 {
+        font-weight: 500;
+        font-size: 26px;
+        margin: 0 0 8px;
+        max-width: 30ch;
+      }
+      .account-band p {
+        color: var(--muted);
+        font-size: 15px;
+        margin: 0;
+        max-width: 40ch;
+      }
 
-<nav>
-  <div class="wrap">
-    <a href="https://loghue.com" class="wordmark">
-      <span>Log<span class="accent">Hue</span></span>
-      <span class="divider">/</span>
-      <span class="sub">Notes</span>
-    </a>
-    <a href="https://app.loghue.com/pages/notes" class="nav-cta">Open app</a>
-  </div>
-</nav>
+      /* FOOTER */
+      footer {
+        border-top: 1px solid var(--border-primary);
+        padding: 40px 0;
+      }
+      footer .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      footer .left {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      footer .links {
+        display: flex;
+        gap: 22px;
+      }
+      footer .links a {
+        font-size: 13px;
+        color: var(--muted);
+        text-decoration: none;
+      }
+      footer .links a:hover {
+        color: var(--text-primary);
+      }
 
-<header class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Part of LogHue, on its own now</p>
-    <h1>Notes, without the rest of LogHue in the way.</h1>
-    <p class="lede">LogHue's main app bundles notes with workspaces, tasks, and team tools. This is just the notes part. If workspaces and tasks aren't why you're here, this is the whole app: write, sketch, or build a table, and nothing else to click past.</p>
-    <div class="cta-row">
-      <a href="/notes" class="btn btn-primary">Start writing, free</a>
-      <a href="auth/" class="btn btn-secondary">Sign in</a>
-    </div>
-    <p class="fine-print">Same account as app.loghue.com. Nothing new to set up.</p>
+      @media (max-width: 760px) {
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+        .split {
+          grid-template-columns: 1fr;
+          gap: 32px;
+        }
+        header.hero {
+          padding: 56px 0 40px;
+        }
+        section {
+          padding: 60px 0;
+        }
+        .editor-mock .body {
+          padding: 24px 20px 30px;
+        }
+        .account-band .wrap {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="wrap">
+        <a href="https://loghue.com" class="wordmark">
+          <div class="logo">Log<span>Hue</span></div>
+          <span class="divider">/</span>
+          <span class="sub">Notes</span>
+        </a>
+        <a href="https://app.loghue.com/pages/notes" class="nav-cta"
+          >Open app</a
+        >
+      </div>
+    </nav>
 
-    <div class="editor-mock">
-      <div class="bar">
-        <div class="left">
-          <div class="dot-row"><span></span><span></span><span></span></div>
-          <span class="saved-pill">Saved</span>
+    <header class="hero">
+      <div class="wrap">
+        <p class="eyebrow">Part of LogHue, on its own now</p>
+        <h1>Notes, without the rest of LogHue in the way.</h1>
+        <p class="lede">
+          LogHue's main app bundles notes with workspaces, tasks, and team
+          tools. This is just the notes part. If workspaces and tasks aren't why
+          you're here, this is the whole app: write, sketch, or build a table,
+          and nothing else to click past.
+        </p>
+        <div class="cta-row">
+          <a href="/notes" class="btn btn-primary">Start writing, free</a>
+          <a href="auth/" class="btn btn-secondary">Sign in</a>
         </div>
-        <span class="export-pill">Export as ▾</span>
-      </div>
-      <div class="body">
-        <p class="title-line">Notes on the Q3 pricing page</p>
-        <div class="fake-line w2"></div>
-        <div class="fake-line w1"></div>
-        <div class="fake-line w4"></div>
-        <div class="fake-line w3"></div>
-        <div class="toolbar-mock">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        <p class="fine-print">
+          Same account as app.loghue.com. Nothing new to set up.
+        </p>
+
+        <div class="editor-mock">
+          <div class="bar">
+            <div class="left">
+              <div class="dot-row"><span></span><span></span><span></span></div>
+              <span class="saved-pill">Saved</span>
+            </div>
+            <span class="export-pill">Export as ▾</span>
+          </div>
+          <div class="body">
+            <p class="title-line">Notes on the Q3 pricing page</p>
+            <div class="fake-line w2"></div>
+            <div class="fake-line w1"></div>
+            <div class="fake-line w4"></div>
+            <div class="fake-line w3"></div>
+            <div class="toolbar-mock">
+              <span></span><span></span><span></span><span></span><span></span
+              ><span></span><span></span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</header>
+    </header>
 
-<section>
-  <div class="wrap">
-    <div class="section-head">
-      <p class="label">Three ways to capture something</p>
-      <h2>Type it, draw it, or lay it out in a table.</h2>
-      <p>Pick the note type that fits what's in your head. Switch anytime without losing formatting.</p>
-    </div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div>
-        <h3>Write</h3>
-        <p>A full rich text editor with fonts, colors, highlights, and checklists. Formatting saves and reloads exactly as you left it.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg></div>
-        <h3>Sketch</h3>
-        <p>Draw freehand on a canvas with pen and eraser tools, for the moments a diagram says more than a paragraph.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg></div>
-        <h3>Table</h3>
-        <p>Drop a table into a note or start a note as one. Good for anything that's really a small spreadsheet in disguise.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="split">
-      <div>
-        <p class="section-head" style="margin-bottom:0;"></p>
-        <p class="label" style="color:var(--blue); font-size:14px; margin:0 0 12px;">Get it out of LogHue</p>
-        <h2 style="font-family:var(--serif); font-weight:500; font-size:clamp(24px,3vw,30px); margin:0 0 14px; line-height:1.25;">Export in whatever format the next step needs.</h2>
-        <p style="color:var(--text-dim); font-size:15px; margin:0 0 20px;">TXT and MD are free on every plan. PDF, DOCX, and HTML come with Pro.</p>
-        <div class="formats-row">
-          <span class="format-chip">TXT</span>
-          <span class="format-chip">MD</span>
-          <span class="format-chip locked">PDF</span>
-          <span class="format-chip locked">DOCX</span>
-          <span class="format-chip locked">HTML</span>
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="label">Three ways to capture something</p>
+          <h2>Type it, draw it, or lay it out in a table.</h2>
+          <p>
+            Pick the note type that fits what's in your head. Switch anytime
+            without losing formatting.
+          </p>
+        </div>
+        <div class="grid-3">
+          <div class="card">
+            <div class="icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 20h9" />
+                <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+              </svg>
+            </div>
+            <h3>Write</h3>
+            <p>
+              A full rich text editor with fonts, colors, highlights, and
+              checklists. Formatting saves and reloads exactly as you left it.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                <path d="M2 2l7.586 7.586" />
+              </svg>
+            </div>
+            <h3>Sketch</h3>
+            <p>
+              Draw freehand on a canvas with pen and eraser tools, for the
+              moments a diagram says more than a paragraph.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M3 15h18M9 3v18M15 3v18" />
+              </svg>
+            </div>
+            <h3>Table</h3>
+            <p>
+              Drop a table into a note or start a note as one. Good for anything
+              that's really a small spreadsheet in disguise.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="visual">
-        <p style="font-size:13px; color:var(--text-dim); margin:0 0 4px;">Share publicly</p>
-        <p style="font-size:14px; color:var(--text-faint); margin:0;">Turn on a link and anyone can read the note. Turn it off and it's back to just you.</p>
-        <div class="share-link-mock">
-          <span class="url">app.loghue.com/pages/share?id=6012e90c…</span>
-          <div class="toggle-mock"></div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="split">
+          <div>
+            <p class="section-head" style="margin-bottom: 0"></p>
+            <p
+              class="label"
+              style="color: var(--blue); font-size: 14px; margin: 0 0 12px"
+            >
+              Get it out of LogHue
+            </p>
+            <h2
+              style="
+                font-family: var(--serif);
+                font-weight: 500;
+                font-size: clamp(24px, 3vw, 30px);
+                margin: 0 0 14px;
+                line-height: 1.25;
+              "
+            >
+              Export in whatever format the next step needs.
+            </h2>
+            <p style="color: var(--muted); font-size: 15px; margin: 0 0 20px">
+              TXT and MD are free on every plan. PDF, DOCX, and HTML come with
+              Pro.
+            </p>
+            <div class="formats-row">
+              <span class="format-chip">TXT</span>
+              <span class="format-chip">MD</span>
+              <span class="format-chip locked">PDF</span>
+              <span class="format-chip locked">DOCX</span>
+              <span class="format-chip locked">HTML</span>
+            </div>
+          </div>
+          <div class="visual">
+            <p style="font-size: 13px; color: var(--muted); margin: 0 0 4px">
+              Share publicly
+            </p>
+            <p style="font-size: 14px; color: var(--text-faint); margin: 0">
+              Turn on a link and anyone can read the note. Turn it off and it's
+              back to just you.
+            </p>
+            <div class="share-link-mock">
+              <span class="url">app.loghue.com/pages/share?id=6012e90c…</span>
+              <div class="toggle-mock"></div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section>
-  <div class="wrap">
-    <div class="section-head">
-      <p class="label">Stay organized without trying hard</p>
-      <h2>Folders when you need them, a flat list when you don't.</h2>
-    </div>
-    <ul class="plain">
-      <li><span class="mark">＋</span><span><strong>Folders.</strong> Group related notes and collapse the ones you're not using. Notes outside a folder just sit at the top level, no forced structure.</span></li>
-      <li><span class="mark">＋</span><span><strong>Search.</strong> Press Ctrl K anywhere and jump straight to a note by title.</span></li>
-      <li><span class="mark">＋</span><span><strong>One account, two apps.</strong> Everything written here shows up in app.loghue.com too, if you ever want tasks and workspaces alongside it.</span></li>
-    </ul>
-  </div>
-</section>
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <p class="label">Stay organized without trying hard</p>
+          <h2>Folders when you need them, a flat list when you don't.</h2>
+        </div>
+        <ul class="plain">
+          <li>
+            <span class="mark">＋</span
+            ><span
+              ><strong>Folders.</strong> Group related notes and collapse the
+              ones you're not using. Notes outside a folder just sit at the top
+              level, no forced structure.</span
+            >
+          </li>
+          <li>
+            <span class="mark">＋</span
+            ><span
+              ><strong>Search.</strong> Press Ctrl K anywhere and jump straight
+              to a note by title.</span
+            >
+          </li>
+          <li>
+            <span class="mark">＋</span
+            ><span
+              ><strong>One account, two apps.</strong> Everything written here
+              shows up in app.loghue.com too, if you ever want tasks and
+              workspaces alongside it.</span
+            >
+          </li>
+        </ul>
+      </div>
+    </section>
 
-<div class="account-band">
-  <div class="wrap">
-    <div>
-      <h2>Already using LogHue?</h2>
-      <p>Your notes are already here. Sign in with the same account, no migration needed.</p>
+    <div class="account-band">
+      <div class="wrap">
+        <div>
+          <h2>Already using LogHue?</h2>
+          <p>
+            Your notes are already here. Sign in with the same account, no
+            migration needed.
+          </p>
+        </div>
+        <a href="https://app.loghue.com/pages/notes" class="btn btn-secondary"
+          >Sign in to Notes</a
+        >
+      </div>
     </div>
-    <a href="https://app.loghue.com/pages/notes" class="btn btn-secondary">Sign in to Notes</a>
-  </div>
-</div>
 
-<footer>
-  <div class="wrap">
-    <span class="left">LogHue Notes, part of loghue.com</span>
-    <div class="links">
-      <a href="https://loghue.com/pricing">Pricing</a>
-      <a href="https://app.loghue.com/pages/notes">App</a>
-      <a href="https://loghue.com/support">Support</a>
-    </div>
-  </div>
-</footer>
-
-</body>
+    <footer>
+      <div class="wrap">
+        <span class="left">LogHue Notes, part of loghue.com</span>
+        <div class="links">
+          <a href="https://loghue.com/pricing">Pricing</a>
+          <a href="https://app.loghue.com/pages/notes">App</a>
+          <a href="https://loghue.com/support">Support</a>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
