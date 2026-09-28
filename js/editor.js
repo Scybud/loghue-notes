@@ -500,7 +500,7 @@ async function openRequestedNote() {
 
   if (!note) {
     actionMsg("Note not found.", "error");
-    window.location.href = "notes.html";
+    window.location.href = "/notes";
     return;
   }
 
