@@ -1,7 +1,3 @@
-/*
-   NOTES LIST PAGE
-   */
-
 .contentHeader {
   margin-bottom: 0;
   gap: var(--space-sm);
@@ -90,10 +86,12 @@ section {
   display: flex;
   align-items: center;
   gap: 7px;
-  padding: var(--space-xs) var(--space-md);
+  padding: var(--space-sm) var(--space-md);
   cursor: pointer;
   user-select: none;
+  background: var(--surface-primary);
   color: var(--text-primary);
+  border-radius: var(--radius-sm);
 }
 
 .noteFolderHeader:hover {
