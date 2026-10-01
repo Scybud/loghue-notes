@@ -370,7 +370,7 @@ async function createNote() {
     new CustomEvent("onboarding:note_created", { detail: { noteId: data.id } }),
   );
 
-  loadNotes()
+  loadNotes();
   openNoteInEditor(data.id);
 }
 

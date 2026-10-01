@@ -1,9 +1,5 @@
-import {
-  loadComponent,
-} from "https://ui.scybud.com/js/ui.js";
-import {
-  openLoginModal,
-} from "https://app.loghue.com/js/utils/modals.js";
+import { loadComponent } from "https://ui.scybud.com/js/ui.js";
+import { openLoginModal } from "https://app.loghue.com/js/utils/modals.js";
 import { autoExpandTextarea } from "https://app.loghue.com/js/utils/textarea.js";
 import {
   handleConcentEvents,
@@ -27,7 +23,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     if (prefs.analytics) loadAnalytics();
   }
-
 
   handleConcentEvents();
   attachSignoutEvents();

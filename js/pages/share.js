@@ -62,8 +62,7 @@ async function init() {
 
   // Private: only the owner passes, straight to their notes page
   if (!note.is_public) {
-    if (note.is_owner)
-      return location.replace(`/notes/editor?note=${note.id}`);
+    if (note.is_owner) return location.replace(`/notes/editor?note=${note.id}`);
     return notFound();
   }
 
