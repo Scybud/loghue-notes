@@ -24,7 +24,7 @@ body {
 /*MAIN*/
 .main {
    height: 100dvh;
-   padding: var(--space-lg) var(--space-sm);
+   padding: var(--space-sm);
 }
 
 /*VARIABLES*/
@@ -191,11 +191,8 @@ a .logo:hover {
 }
 
 #logoutBtn {
-  position: fixed ;
-  top: var(--space-sm);
-  right: var(--space-sm);
+  position: static;
   height: fit-content;
-  bottom: auto;
   background: var(--surface-primary);
   padding: var(--space-xs);
   border: none;
