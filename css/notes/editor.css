@@ -38,6 +38,12 @@
   width: 100%;
 }
 
+.notesLink {
+  margin: var(--space-lg);
+  background: none;
+  padding: 0;
+  
+}
 .editorTop {
   display: flex;
   align-items: center;
